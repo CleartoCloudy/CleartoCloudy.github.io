@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>温馨祝福 - 送给特别的你</title>
+    <meta name="description" content="接收温馨祝福，感受温暖关怀">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: -apple-system, BlinkMacSystemFont, 'Microsoft YaHei', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 20px;
+            color: white;
+            text-align: center;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding-bottom: 20px;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+            padding-top: 10px;
+        }
+        
+        .title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+            line-height: 1.5;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FF6B6B, #FF8E53);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            margin: 10px 5px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 300px;
+            -webkit-appearance: none;
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #4ECDC4, #44A08D);
+        }
+        
+        .warm-tip {
+            position: fixed;
+            min-width: 150px;
+            max-width: 180px;
+            padding: 15px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: #333;
+            z-index: 1000;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            animation: floatIn 0.6s ease-out;
+            -webkit-user-select: none;
+            user-select: none;
+            line-height: 1.3;
+        }
+        
+        @keyframes floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.8) rotate(-3deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-6px) rotate(1deg);
+            }
+        }
+        
+        .progress {
+            margin: 20px 0;
+            font-size: 0.95rem;
+            background: rgba(255,255,255,0.15);
+            padding: 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            line-height: 1.4;
+        }
+        
+        .wechat-tips {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 1.6rem;
+            }
+            
+            .btn {
+                font-size: 1rem;
+                padding: 14px 25px;
+            }
+            
+            .warm-tip {
+                min-width: 140px;
+                max-width: 160px;
+                font-size: 0.9rem;
+                padding: 14px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .warm-tip {
+                min-width: 130px;
+                max-width: 150px;
+                font-size: 0.85rem;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">💖 温馨祝福 💖</h1>
+            <p class="subtitle">点击下方按钮，接收温馨祝福</p>
+        </div>
+        
+        <div class="wechat-tips">
+            <strong>🎯 智能分布：</strong><br>
+            • 弹窗会智能分布在屏幕各处<br>
+            • 既随机又均匀，避免重叠<br>
+            • 点击任意祝福可以提前关闭
+        </div>
+        
+        <button class="btn" onclick="startDisplay()">开始接收祝福 ✨</button>
+        <button class="btn btn-secondary" onclick="clearAllWindows()">清空所有祝福</button>
+        
+        <div class="progress" id="progress">准备好接收温馨祝福了吗？</div>
+    </div>
+
+    <script>
+        // 温馨提醒内容
+        const tips = [
+            '多喝水哦~💧', '保持微笑呀😊', '每天都要元气满满^_^',
+            '记得吃水果🍎', '肖颖芳要开心🌸', '杨清莹学姐天天开心🎀',
+            '好好爱自己💖', '想你们了>_<', '梦想成真✨',
+            '顺顺利利🌈', '早点休息🌙', '愿所有烦恼都消失🎈',
+            '别熬夜💤', '今天过得开心吗😄', '天冷了，多穿衣服🧥',
+            '保持好心情🌞', '记得微笑😄', '你是最棒的⭐',
+            '加油哦💪', '一切都会好的🌻', '保持积极心态🌈',
+            '放松一下🎵', '深呼吸🌬️', '慢慢来🐢',
+            '今天也很美好🌞', '感恩当下🙏', '珍惜每一天📅',
+            '保持乐观😎', '向前看👀', '未来可期🚀'
+        ];
+
+        const bgColors = [
+            'linear-gradient(135deg, #FFB6C1, #FF69B4)',
+            'linear-gradient(135deg, #87CEEB, #1E90FF)',
+            'linear-gradient(135deg, #98FB98, #32CD32)',
+            'linear-gradient(135deg, #DDA0DD, #BA55D3)',
+            'linear-gradient(135deg, #FFFACD, #FFD700)',
+            'linear-gradient(135deg, #FFA07A, #FF6347)',
+            'linear-gradient(135deg, #E0FFFF, #40E0D0)',
+            'linear-gradient(135deg, #F0E68C, #DAA520)'
+        ];
+
+        let windowsCreated = 0;
+        const totalWindows = 80;
+        let isCreating = false;
+        
+        // 改进的智能分布系统
+        const distributionSystem = {
+            positions: [],
+            minDistance: 120, // 弹窗之间的最小距离
+            
+            initialize() {
+                this.positions = [];
+            },
+            
+            getOptimalPosition(tipWidth, tipHeight) {
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const margin = 20;
+                
+                let bestPosition = null;
+                let bestScore = -1;
+                let attempts = 0;
+                
+                // 尝试多个随机位置，选择最优的
+                while (attempts < 30) {
+                    const x = margin + Math.random() * (screenWidth - tipWidth - margin * 2);
+                    const y = margin + Math.random() * (screenHeight - tipHeight - margin * 2);
+                    
+                    const score = this.calculatePositionScore(x, y, tipWidth, tipHeight);
+                    
+                    if (score > bestScore) {
+                        bestScore = score;
+                        bestPosition = { x, y };
+                    }
+                    
+                    attempts++;
+                }
+                
+                if (bestPosition) {
+                    this.positions.push({
+                        x: bestPosition.x + tipWidth / 2,
+                        y: bestPosition.y + tipHeight / 2
+                    });
+                }
+                
+                return bestPosition || this.getFallbackPosition(tipWidth, tipHeight);
+            },
+            
+            calculatePositionScore(x, y, width, height) {
+                const centerX = x + width / 2;
+                const centerY = y + height / 2;
+                let score = 0;
+                
+                // 计算与现有弹窗的距离
+                if (this.positions.length > 0) {
+                    let minDistance = Infinity;
+                    for (const pos of this.positions) {
+                        const distance = Math.sqrt(
+                            Math.pow(centerX - pos.x, 2) + Math.pow(centerY - pos.y, 2)
+                        );
+                        minDistance = Math.min(minDistance, distance);
+                    }
+                    
+                    // 距离越远，分数越高（避免重叠）
+                    if (minDistance < this.minDistance) {
+                        score -= (this.minDistance - minDistance) * 10;
+                    } else {
+                        score += minDistance;
+                    }
+                }
+                
+                // 鼓励分布在屏幕边缘区域（避免都集中在中间）
+                const screenCenterX = window.innerWidth / 2;
+                const screenCenterY = window.innerHeight / 2;
+                const distanceToCenter = Math.sqrt(
+                    Math.pow(centerX - screenCenterX, 2) + Math.pow(centerY - screenCenterY, 2)
+                );
+                score += distanceToCenter * 0.5;
+                
+                // 鼓励分布在屏幕四个角落
+                const cornerBonus = this.getCornerBonus(centerX, centerY);
+                score += cornerBonus;
+                
+                return score;
+            },
+            
+            getCornerBonus(x, y) {
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const cornerRadius = 150;
+                
+                // 计算到四个角落的距离
+                const distances = [
+                    Math.sqrt(x * x + y * y), // 左上
+                    Math.sqrt((screenWidth - x) * x + y * y), // 右上
+                    Math.sqrt(x * x + (screenHeight - y) * y), // 左下
+                    Math.sqrt((screenWidth - x) * (screenWidth - x) + (screenHeight - y) * (screenHeight - y)) // 右下
+                ];
+                
+                // 找到最近角落的距离
+                const minCornerDistance = Math.min(...distances);
+                
+                // 在角落附近给予加分
+                return minCornerDistance < cornerRadius ? (cornerRadius - minCornerDistance) * 0.3 : 0;
+            },
+            
+            getFallbackPosition(tipWidth, tipHeight) {
+                // 备用方案：使用网格分布
+                const screenWidth = window.innerWidth;
+                const screenHeight = window.innerHeight;
+                const cols = 4;
+                const rows = 6;
+                
+                const col = windowsCreated % cols;
+                const row = Math.floor(windowsCreated / cols) % rows;
+                
+                const cellWidth = screenWidth / cols;
+                const cellHeight = screenHeight / rows;
+                
+                const x = col * cellWidth + Math.random() * (cellWidth - tipWidth - 20);
+                const y = row * cellHeight + Math.random() * (cellHeight - tipHeight - 20);
+                
+                return {
+                    x: Math.max(10, Math.min(x, screenWidth - tipWidth - 10)),
+                    y: Math.max(10, Math.min(y, screenHeight - tipHeight - 10))
+                };
+            }
+        };
+
+        function startDisplay() {
+            if (isCreating) return;
+            isCreating = true;
+            windowsCreated = 0;
+            distributionSystem.initialize();
+            updateProgress();
+            createWindowsSequentially();
+        }
+
+        function createWindowsSequentially() {
+            if (windowsCreated >= totalWindows) {
+                isCreating = false;
+                document.getElementById('progress').innerHTML = 
+                    '🎉 完成！共发送 ' + totalWindows + ' 个温馨祝福！';
+                return;
+            }
+
+            createSingleWindow();
+            windowsCreated++;
+            updateProgress();
+
+            const delay = 80 + Math.random() * 120;
+            setTimeout(createWindowsSequentially, delay);
+        }
+
+        function createSingleWindow() {
+            const tip = document.createElement('div');
+            tip.className = 'warm-tip';
+            
+            const tipText = tips[Math.floor(Math.random() * tips.length)];
+            const bgColor = bgColors[Math.floor(Math.random() * bgColors.length)];
+            
+            tip.textContent = tipText;
+            tip.style.background = bgColor;
+            tip.style.animation = 'float 3s ease-in-out infinite';
+            tip.style.animationDelay = Math.random() * 2 + 's';
+            
+            // 使用智能分布系统计算位置
+            const tipWidth = 160;
+            const tipHeight = 70;
+            
+            const position = distributionSystem.getOptimalPosition(tipWidth, tipHeight);
+            
+            tip.style.left = position.x + 'px';
+            tip.style.top = position.y + 'px';
+            
+            // 添加随机旋转和浮动效果
+            const rotation = (Math.random() - 0.5) * 8;
+            tip.style.transform = `rotate(${rotation}deg)`;
+            
+            // 触摸事件
+            tip.ontouchstart = function() {
+                this.style.opacity = '0.8';
+            };
+            
+            tip.onclick = function() {
+                this.style.opacity = '0';
+                this.style.transform = 'scale(0.5) rotate(360deg)';
+                setTimeout(() => {
+                    if (this.parentNode) {
+                        this.parentNode.removeChild(this);
+                    }
+                }, 300);
+            };
+            
+            const autoCloseTime = 6000 + Math.random() * 6000;
+            setTimeout(() => {
+                if (tip.parentNode) {
+                    tip.style.opacity = '0';
+                    tip.style.transform = 'scale(0.5)';
+                    setTimeout(() => {
+                        if (tip.parentNode) {
+                            tip.parentNode.removeChild(tip);
+                        }
+                    }, 500);
+                }
+            }, autoCloseTime);
+            
+            document.body.appendChild(tip);
+        }
+
+        function clearAllWindows() {
+            const tips = document.querySelectorAll('.warm-tip');
+            tips.forEach(tip => {
+                tip.style.opacity = '0';
+                tip.style.transform = 'scale(0.5)';
+                setTimeout(() => {
+                    if (tip.parentNode) {
+                        tip.parentNode.removeChild(tip);
+                    }
+                }, 300);
+            });
+            windowsCreated = 0;
+            isCreating = false;
+            distributionSystem.initialize();
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const progress = document.getElementById('progress');
+            if (windowsCreated === 0) {
+                progress.innerHTML = '准备好接收温馨祝福了吗？';
+            } else if (windowsCreated < totalWindows) {
+                const percent = Math.floor((windowsCreated / totalWindows) * 100);
+                progress.innerHTML = `发送中... ${windowsCreated}/${totalWindows} (${percent}%)<br>
+                                     <small>🎯 智能均匀分布中</small>`;
+            }
+        }
+
+        // 页面加载完成
+        window.onload = function() {
+            // 阻止双击缩放
+            let lastTouchEnd = 0;
+            document.addEventListener('touchend', function (event) {
+                const now = (new Date()).getTime();
+                if (now - lastTouchEnd <= 300) {
+                    event.preventDefault();
+                }
+                lastTouchEnd = now;
+            }, false);
+        };
+    </script>
+</body>
+</html>
